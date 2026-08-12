@@ -1,4 +1,4 @@
-// Mock data for the FundFlow UI prototype. No backend yet.
+// Mock data for the keppay UI prototype. No backend yet.
 
 export type AccountStatus = "PENDING" | "ACTIVE" | "DISABLED";
 export type Role = "USER" | "ADMIN";

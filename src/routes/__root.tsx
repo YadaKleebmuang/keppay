@@ -79,12 +79,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "FundFlow — ระบบเก็บเงินและติดตามการชำระในกลุ่ม" },
+      { title: "keppay — ระบบเก็บเงินและติดตามการชำระในกลุ่ม" },
       {
         name: "description",
-        content: "FundFlow ช่วยจัดการรายการเก็บเงินในกลุ่ม รับสลิป ตรวจสอบ และสรุปยอดคงเหลือ",
+        content: "keppay ช่วยจัดการรายการเก็บเงินในกลุ่ม รับสลิป ตรวจสอบ และสรุปยอดคงเหลือ",
       },
-      { property: "og:title", content: "FundFlow — ระบบเก็บเงินและติดตามการชำระในกลุ่ม" },
+      { property: "og:title", content: "keppay — ระบบเก็บเงินและติดตามการชำระในกลุ่ม" },
       {
         property: "og:description",
         content: "สร้างรายการเก็บเงิน กำหนดยอดต่อคน รับสลิป และตรวจสอบการชำระในที่เดียว",

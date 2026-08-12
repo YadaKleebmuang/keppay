@@ -57,7 +57,7 @@ export function AppShell({
             <span className="flex size-8 items-center justify-center rounded-lg bg-gold text-gold-foreground">
               <Wallet className="size-4" />
             </span>
-            <span className="text-base font-semibold tracking-tight">FundFlow</span>
+            <span className="text-base font-semibold tracking-tight">keppay</span>
           </Link>
 
           <nav className="order-3 -mx-1 hidden w-full items-center gap-1 overflow-x-auto sm:order-none sm:mx-0 sm:w-auto lg:flex">
@@ -109,7 +109,7 @@ export function AppShell({
       <main className="mx-auto max-w-6xl px-4 py-8 pb-28 sm:px-6 lg:pb-8">{children}</main>
 
       <footer className="mx-auto max-w-6xl px-4 pb-24 text-xs text-muted-foreground sm:px-6 lg:pb-10">
-        FundFlow บันทึกและตรวจสอบหลักฐานการโอน — ไม่ได้เป็นระบบโอนเงินจริง
+        keppay บันทึกและตรวจสอบหลักฐานการโอน — ไม่ได้เป็นระบบโอนเงินจริง
       </footer>
 
       <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur lg:hidden">

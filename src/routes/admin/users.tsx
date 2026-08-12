@@ -16,12 +16,12 @@ import { currentAdmin, profiles } from "@/lib/fundflow-data";
 export const Route = createFileRoute("/admin/users")({
   head: () => ({
     meta: [
-      { title: "จัดการสมาชิก — FundFlow" },
+      { title: "จัดการสมาชิก — keppay" },
       {
         name: "description",
         content: "อนุมัติผู้ใช้ใหม่ ระงับบัญชี และดูสิทธิ์ของสมาชิกในกลุ่ม",
       },
-      { property: "og:title", content: "จัดการสมาชิก — FundFlow" },
+      { property: "og:title", content: "จัดการสมาชิก — keppay" },
       { property: "og:description", content: "อนุมัติหรือระงับบัญชีสมาชิกของกลุ่ม" },
     ],
   }),

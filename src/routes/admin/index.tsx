@@ -14,12 +14,12 @@ import {
 export const Route = createFileRoute("/admin/")({
   head: () => ({
     meta: [
-      { title: "ภาพรวมผู้ดูแล — FundFlow" },
+      { title: "ภาพรวมผู้ดูแล — keppay" },
       {
         name: "description",
         content: "ภาพรวมรายการเก็บเงิน จำนวนสมาชิก สลิปที่รอตรวจสอบ และยอดคงเหลือของกลุ่ม",
       },
-      { property: "og:title", content: "ภาพรวมผู้ดูแล — FundFlow" },
+      { property: "og:title", content: "ภาพรวมผู้ดูแล — keppay" },
       { property: "og:description", content: "ติดตามยอดเก็บเงินและสลิปที่รอตรวจในที่เดียว" },
     ],
   }),

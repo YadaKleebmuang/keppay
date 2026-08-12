@@ -13,12 +13,12 @@ import { buildObligationView, formatTHB, obligationById, paymentById } from "@/l
 export const Route = createFileRoute("/admin/payments/$paymentId")({
   head: () => ({
     meta: [
-      { title: "ตรวจสลิปการชำระ — FundFlow" },
+      { title: "ตรวจสลิปการชำระ — keppay" },
       {
         name: "description",
         content: "ดูสลิป ยอดที่สมาชิกกรอก ข้อมูล OCR/QR และประวัติการชำระ ก่อนอนุมัติหรือปฏิเสธ",
       },
-      { property: "og:title", content: "ตรวจสลิปการชำระ — FundFlow" },
+      { property: "og:title", content: "ตรวจสลิปการชำระ — keppay" },
       { property: "og:description", content: "อนุมัติยอดที่ตรวจสอบแล้วหรือปฏิเสธพร้อมเหตุผล" },
     ],
   }),

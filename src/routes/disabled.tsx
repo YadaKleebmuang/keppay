@@ -4,12 +4,12 @@ import { Ban, Wallet } from "lucide-react";
 export const Route = createFileRoute("/disabled")({
   head: () => ({
     meta: [
-      { title: "บัญชีถูกระงับ — FundFlow" },
+      { title: "บัญชีถูกระงับ — keppay" },
       {
         name: "description",
         content: "บัญชีนี้ถูกระงับการใช้งาน โปรดติดต่อผู้ดูแลกลุ่มเพื่อขอเปิดใช้งานอีกครั้ง",
       },
-      { property: "og:title", content: "บัญชีถูกระงับ — FundFlow" },
+      { property: "og:title", content: "บัญชีถูกระงับ — keppay" },
       { property: "og:description", content: "ติดต่อผู้ดูแลเพื่อขอเปิดใช้งานบัญชีอีกครั้ง" },
     ],
   }),

@@ -15,12 +15,12 @@ import {
 export const Route = createFileRoute("/admin/payments/")({
   head: () => ({
     meta: [
-      { title: "ตรวจสอบสลิป — FundFlow" },
+      { title: "ตรวจสอบสลิป — keppay" },
       {
         name: "description",
         content: "คิวสลิปที่รอตรวจสอบ พร้อมยอดที่สมาชิกกรอก ข้อมูลช่วยอ่านจาก OCR และ QR",
       },
-      { property: "og:title", content: "ตรวจสอบสลิป — FundFlow" },
+      { property: "og:title", content: "ตรวจสอบสลิป — keppay" },
       { property: "og:description", content: "อนุมัติหรือปฏิเสธสลิปการโอนของสมาชิกอย่างเป็นระบบ" },
     ],
   }),

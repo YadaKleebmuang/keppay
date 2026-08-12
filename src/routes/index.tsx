@@ -4,13 +4,13 @@ import { ArrowRight, CheckCircle2, ShieldCheck, Wallet } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "FundFlow — ระบบเก็บเงินและติดตามการชำระในกลุ่ม" },
+      { title: "keppay — ระบบเก็บเงินและติดตามการชำระในกลุ่ม" },
       {
         name: "description",
         content:
-          "FundFlow ช่วยกลุ่มเพื่อน ห้องเรียน และชมรม สร้างรายการเก็บเงิน กำหนดยอดต่อคน รับสลิป และตรวจสอบการชำระอย่างเป็นระบบ",
+          "keppay ช่วยกลุ่มเพื่อน ห้องเรียน และชมรม สร้างรายการเก็บเงิน กำหนดยอดต่อคน รับสลิป และตรวจสอบการชำระอย่างเป็นระบบ",
       },
-      { property: "og:title", content: "FundFlow — ระบบเก็บเงินและติดตามการชำระในกลุ่ม" },
+      { property: "og:title", content: "keppay — ระบบเก็บเงินและติดตามการชำระในกลุ่ม" },
       {
         property: "og:description",
         content: "สร้างรายการเก็บเงิน กำหนดยอดต่อคน รับสลิป และตรวจสอบการชำระในที่เดียว",
@@ -34,7 +34,7 @@ function Landing() {
           <span className="flex size-9 items-center justify-center rounded-lg bg-gold text-gold-foreground">
             <Wallet className="size-4.5" />
           </span>
-          <span className="text-lg font-semibold tracking-tight">FundFlow</span>
+          <span className="text-lg font-semibold tracking-tight">keppay</span>
         </div>
 
         <div className="max-w-xl py-12">
@@ -60,7 +60,7 @@ function Landing() {
         </div>
 
         <p className="text-xs text-primary-deep-foreground/50">
-          เงินจริงยังโอนผ่านแอปธนาคารตามปกติ FundFlow ทำหน้าที่บันทึกและตรวจสอบหลักฐาน
+          เงินจริงยังโอนผ่านแอปธนาคารตามปกติ keppay ทำหน้าที่บันทึกและตรวจสอบหลักฐาน
         </p>
       </section>
 

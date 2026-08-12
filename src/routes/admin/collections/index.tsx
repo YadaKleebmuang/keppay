@@ -9,12 +9,12 @@ import { collections, formatTHB, obligationViewsForCollection } from "@/lib/fund
 export const Route = createFileRoute("/admin/collections/")({
   head: () => ({
     meta: [
-      { title: "รายการเก็บเงิน — FundFlow" },
+      { title: "รายการเก็บเงิน — keppay" },
       {
         name: "description",
         content: "สร้างและจัดการรายการเก็บเงิน กำหนดสมาชิกและยอดที่แต่ละคนต้องชำระ",
       },
-      { property: "og:title", content: "รายการเก็บเงิน — FundFlow" },
+      { property: "og:title", content: "รายการเก็บเงิน — keppay" },
       { property: "og:description", content: "จัดการรายการเก็บเงินของกลุ่มและยอดต่อสมาชิก" },
     ],
   }),

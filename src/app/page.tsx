@@ -16,7 +16,7 @@ export default function Landing() {
           <span className="flex size-9 items-center justify-center rounded-lg bg-gold text-gold-foreground">
             <Wallet className="size-4.5" />
           </span>
-          <span className="text-lg font-semibold tracking-tight">FundFlow</span>
+          <span className="text-lg font-semibold tracking-tight">keppay</span>
         </div>
 
         <div className="max-w-xl py-12">
@@ -42,7 +42,7 @@ export default function Landing() {
         </div>
 
         <p className="text-xs text-primary-deep-foreground/50">
-          เงินจริงยังโอนผ่านแอปธนาคารตามปกติ FundFlow ทำหน้าที่บันทึกและตรวจสอบหลักฐาน
+          เงินจริงยังโอนผ่านแอปธนาคารตามปกติ keppay ทำหน้าที่บันทึกและตรวจสอบหลักฐาน
         </p>
       </section>
 

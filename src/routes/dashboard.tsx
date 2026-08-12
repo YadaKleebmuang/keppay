@@ -12,12 +12,12 @@ import { currentUser, formatTHB, obligationViewsForUser } from "@/lib/fundflow-d
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "รายการที่ต้องชำระ — FundFlow" },
+      { title: "รายการที่ต้องชำระ — keppay" },
       {
         name: "description",
         content: "ดูยอดที่ต้องชำระ ยอดที่อนุมัติแล้ว ยอดรอตรวจสอบ และส่งสลิปโอนเงินของคุณ",
       },
-      { property: "og:title", content: "รายการที่ต้องชำระ — FundFlow" },
+      { property: "og:title", content: "รายการที่ต้องชำระ — keppay" },
       { property: "og:description", content: "สรุปยอดค้างชำระและประวัติการส่งสลิปของคุณ" },
     ],
   }),

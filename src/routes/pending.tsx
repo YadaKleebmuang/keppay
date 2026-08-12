@@ -4,12 +4,12 @@ import { Clock, Wallet } from "lucide-react";
 export const Route = createFileRoute("/pending")({
   head: () => ({
     meta: [
-      { title: "รออนุมัติบัญชี — FundFlow" },
+      { title: "รออนุมัติบัญชี — keppay" },
       {
         name: "description",
-        content: "บัญชีของคุณถูกสร้างแล้วและกำลังรอผู้ดูแลอนุมัติให้เข้าใช้งาน FundFlow",
+        content: "บัญชีของคุณถูกสร้างแล้วและกำลังรอผู้ดูแลอนุมัติให้เข้าใช้งาน keppay",
       },
-      { property: "og:title", content: "รออนุมัติบัญชี — FundFlow" },
+      { property: "og:title", content: "รออนุมัติบัญชี — keppay" },
       { property: "og:description", content: "บัญชีของคุณกำลังรอผู้ดูแลอนุมัติ" },
     ],
   }),

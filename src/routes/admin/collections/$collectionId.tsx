@@ -17,12 +17,12 @@ import { collectionById, formatTHB, obligationViewsForCollection } from "@/lib/f
 export const Route = createFileRoute("/admin/collections/$collectionId")({
   head: () => ({
     meta: [
-      { title: "รายละเอียดรายการเก็บเงิน — FundFlow" },
+      { title: "รายละเอียดรายการเก็บเงิน — keppay" },
       {
         name: "description",
         content: "ดูสมาชิกในรายการ ยอดที่ต้องชำระต่อคน ยอดที่อนุมัติแล้ว และยอดคงเหลือ",
       },
-      { property: "og:title", content: "รายละเอียดรายการเก็บเงิน — FundFlow" },
+      { property: "og:title", content: "รายละเอียดรายการเก็บเงิน — keppay" },
       { property: "og:description", content: "จัดการสมาชิกและยอดต่อคนของรายการเก็บเงิน" },
     ],
   }),

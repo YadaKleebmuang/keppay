@@ -22,12 +22,12 @@ import { buildObligationView, formatTHB, obligationById } from "@/lib/fundflow-d
 export const Route = createFileRoute("/pay/$obligationId")({
   head: () => ({
     meta: [
-      { title: "ส่งสลิปการโอน — FundFlow" },
+      { title: "ส่งสลิปการโอน — keppay" },
       {
         name: "description",
         content: "อัปโหลดสลิปการโอน ระบบจะบีบอัดรูปและช่วยอ่านยอดด้วย OCR และ QR ก่อนส่งให้ผู้ดูแลตรวจ",
       },
-      { property: "og:title", content: "ส่งสลิปการโอน — FundFlow" },
+      { property: "og:title", content: "ส่งสลิปการโอน — keppay" },
       { property: "og:description", content: "อัปโหลดหลักฐานการโอนเงินสำหรับรายการเก็บเงินของคุณ" },
     ],
   }),
