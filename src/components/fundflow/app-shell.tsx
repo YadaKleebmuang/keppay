@@ -1,18 +1,36 @@
 import { Link } from "@tanstack/react-router";
-import { Wallet } from "lucide-react";
+import {
+  ClipboardCheck,
+  LayoutDashboard,
+  ListChecks,
+  Receipt,
+  Users,
+  Wallet,
+  type LucideIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { currentAdmin, currentUser } from "@/lib/fundflow-data";
 
-type NavItem = { to: string; label: string; exact?: boolean };
+type NavItem = { to: string; label: string; short: string; icon: LucideIcon; exact?: boolean };
 
-const userNav: NavItem[] = [{ to: "/dashboard", label: "รายการของฉัน", exact: true }];
+const userNav: NavItem[] = [
+  {
+    to: "/dashboard",
+    label: "รายการของฉัน",
+    short: "รายการ",
+    icon: Receipt,
+    exact: true,
+  },
+  { to: "/admin", label: "มุมมองผู้ดูแล", short: "ผู้ดูแล", icon: ClipboardCheck, exact: true },
+];
 
 const adminNav: NavItem[] = [
-  { to: "/admin", label: "ภาพรวม", exact: true },
-  { to: "/admin/collections", label: "รายการเก็บเงิน" },
-  { to: "/admin/payments", label: "ตรวจสลิป" },
-  { to: "/admin/users", label: "สมาชิก" },
+  { to: "/admin", label: "ภาพรวม", short: "ภาพรวม", icon: LayoutDashboard, exact: true },
+  { to: "/admin/collections", label: "รายการเก็บเงิน", short: "รายการ", icon: ListChecks },
+  { to: "/admin/payments", label: "ตรวจสลิป", short: "ตรวจสลิป", icon: ClipboardCheck },
+  { to: "/admin/users", label: "สมาชิก", short: "สมาชิก", icon: Users },
 ];
+
 
 export function AppShell({
   variant,
