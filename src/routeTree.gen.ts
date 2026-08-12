@@ -16,6 +16,7 @@ import { Route as PayObligationIdRouteImport } from './routes/pay.$obligationId'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin/collections/index'
 import { Route as AdminCollectionsCollectionIdRouteImport } from './routes/admin/collections/$collectionId'
 import { Route as AdminPaymentsIndexRouteImport } from './routes/admin/payments/index'
+import { Route as AdminPaymentsPaymentIdRouteImport } from './routes/admin/payments/$paymentId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -53,6 +54,11 @@ const AdminPaymentsIndexRoute = AdminPaymentsIndexRouteImport.update({
   path: '/admin/payments/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPaymentsPaymentIdRoute = AdminPaymentsPaymentIdRouteImport.update({
+  id: '/admin/payments/$paymentId',
+  path: '/admin/payments/$paymentId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/pay/$obligationId': typeof PayObligationIdRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
+  '/admin/payments/$paymentId': typeof AdminPaymentsPaymentIdRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/payments/': typeof AdminPaymentsIndexRoute
 }
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/pay/$obligationId': typeof PayObligationIdRoute
   '/admin': typeof AdminIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
+  '/admin/payments/$paymentId': typeof AdminPaymentsPaymentIdRoute
   '/admin/collections': typeof AdminCollectionsIndexRoute
   '/admin/payments': typeof AdminPaymentsIndexRoute
 }
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/pay/$obligationId': typeof PayObligationIdRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
+  '/admin/payments/$paymentId': typeof AdminPaymentsPaymentIdRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
   '/admin/payments/': typeof AdminPaymentsIndexRoute
 }
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/pay/$obligationId'
     | '/admin/'
     | '/admin/collections/$collectionId'
+    | '/admin/payments/$paymentId'
     | '/admin/collections/'
     | '/admin/payments/'
   fileRoutesByTo: FileRoutesByTo
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/pay/$obligationId'
     | '/admin'
     | '/admin/collections/$collectionId'
+    | '/admin/payments/$paymentId'
     | '/admin/collections'
     | '/admin/payments'
   id:
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/pay/$obligationId'
     | '/admin/'
     | '/admin/collections/$collectionId'
+    | '/admin/payments/$paymentId'
     | '/admin/collections/'
     | '/admin/payments/'
   fileRoutesById: FileRoutesById
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   PayObligationIdRoute: typeof PayObligationIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminCollectionsCollectionIdRoute: typeof AdminCollectionsCollectionIdRoute
+  AdminPaymentsPaymentIdRoute: typeof AdminPaymentsPaymentIdRoute
   AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
   AdminPaymentsIndexRoute: typeof AdminPaymentsIndexRoute
 }
@@ -173,6 +186,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPaymentsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/payments/$paymentId': {
+      id: '/admin/payments/$paymentId'
+      path: '/admin/payments/$paymentId'
+      fullPath: '/admin/payments/$paymentId'
+      preLoaderRoute: typeof AdminPaymentsPaymentIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   PayObligationIdRoute: PayObligationIdRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminCollectionsCollectionIdRoute: AdminCollectionsCollectionIdRoute,
+  AdminPaymentsPaymentIdRoute: AdminPaymentsPaymentIdRoute,
   AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
   AdminPaymentsIndexRoute: AdminPaymentsIndexRoute,
 }
