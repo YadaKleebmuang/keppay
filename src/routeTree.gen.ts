@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as PayObligationIdRouteImport } from './routes/pay.$obligationId'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin/collections/index'
 import { Route as AdminCollectionsCollectionIdRouteImport } from './routes/admin/collections/$collectionId'
@@ -31,6 +32,11 @@ const DashboardRoute = DashboardRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PayObligationIdRoute = PayObligationIdRouteImport.update({
@@ -63,6 +69,7 @@ const AdminPaymentsPaymentIdRoute = AdminPaymentsPaymentIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/admin/users': typeof AdminUsersRoute
   '/pay/$obligationId': typeof PayObligationIdRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/admin/users': typeof AdminUsersRoute
   '/pay/$obligationId': typeof PayObligationIdRoute
   '/admin': typeof AdminIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/admin/users': typeof AdminUsersRoute
   '/pay/$obligationId': typeof PayObligationIdRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/admin/users'
     | '/pay/$obligationId'
     | '/admin/'
     | '/admin/collections/$collectionId'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/admin/users'
     | '/pay/$obligationId'
     | '/admin'
     | '/admin/collections/$collectionId'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/admin/users'
     | '/pay/$obligationId'
     | '/admin/'
     | '/admin/collections/$collectionId'
@@ -127,6 +139,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
+  AdminUsersRoute: typeof AdminUsersRoute
   PayObligationIdRoute: typeof PayObligationIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminCollectionsCollectionIdRoute: typeof AdminCollectionsCollectionIdRoute
@@ -156,6 +169,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pay/$obligationId': {
@@ -199,6 +219,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
+  AdminUsersRoute: AdminUsersRoute,
   PayObligationIdRoute: PayObligationIdRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminCollectionsCollectionIdRoute: AdminCollectionsCollectionIdRoute,
