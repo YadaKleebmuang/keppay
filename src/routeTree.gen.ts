@@ -14,6 +14,7 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as PayObligationIdRouteImport } from './routes/pay.$obligationId'
 import { Route as AdminCollectionsIndexRouteImport } from './routes/admin/collections/index'
+import { Route as AdminCollectionsCollectionIdRouteImport } from './routes/admin/collections/$collectionId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,12 +41,19 @@ const AdminCollectionsIndexRoute = AdminCollectionsIndexRouteImport.update({
   path: '/admin/collections/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCollectionsCollectionIdRoute =
+  AdminCollectionsCollectionIdRouteImport.update({
+    id: '/admin/collections/$collectionId',
+    path: '/admin/collections/$collectionId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/pay/$obligationId': typeof PayObligationIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +61,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/pay/$obligationId': typeof PayObligationIdRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
   '/admin/collections': typeof AdminCollectionsIndexRoute
 }
 export interface FileRoutesById {
@@ -61,6 +70,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/pay/$obligationId': typeof PayObligationIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
   '/admin/collections/': typeof AdminCollectionsIndexRoute
 }
 export interface FileRouteTypes {
@@ -70,16 +80,23 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/pay/$obligationId'
     | '/admin/'
+    | '/admin/collections/$collectionId'
     | '/admin/collections/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/dashboard' | '/pay/$obligationId' | '/admin' | '/admin/collections'
+    | '/'
+    | '/dashboard'
+    | '/pay/$obligationId'
+    | '/admin'
+    | '/admin/collections/$collectionId'
+    | '/admin/collections'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
     | '/pay/$obligationId'
     | '/admin/'
+    | '/admin/collections/$collectionId'
     | '/admin/collections/'
   fileRoutesById: FileRoutesById
 }
@@ -88,6 +105,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   PayObligationIdRoute: typeof PayObligationIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminCollectionsCollectionIdRoute: typeof AdminCollectionsCollectionIdRoute
   AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
 }
 
@@ -128,6 +146,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCollectionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/collections/$collectionId': {
+      id: '/admin/collections/$collectionId'
+      path: '/admin/collections/$collectionId'
+      fullPath: '/admin/collections/$collectionId'
+      preLoaderRoute: typeof AdminCollectionsCollectionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -136,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   PayObligationIdRoute: PayObligationIdRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminCollectionsCollectionIdRoute: AdminCollectionsCollectionIdRoute,
   AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
 }
 export const routeTree = rootRouteImport
