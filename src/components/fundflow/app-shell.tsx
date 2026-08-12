@@ -53,7 +53,7 @@ export function AppShell({
             <span className="text-base font-semibold tracking-tight">FundFlow</span>
           </Link>
 
-          <nav className="order-3 -mx-1 flex w-full items-center gap-1 overflow-x-auto sm:order-none sm:mx-0 sm:w-auto">
+          <nav className="order-3 -mx-1 hidden w-full items-center gap-1 overflow-x-auto sm:order-none sm:mx-0 sm:w-auto lg:flex">
             {nav.map((item) => (
               <Link
                 key={item.to}
@@ -69,7 +69,7 @@ export function AppShell({
           <div className="ml-auto flex items-center gap-3">
             <Link
               to={variant === "admin" ? "/dashboard" : "/admin"}
-              className="hidden text-xs text-primary-deep-foreground/60 underline-offset-4 hover:underline sm:inline"
+              className="hidden text-xs text-primary-deep-foreground/60 underline-offset-4 hover:underline lg:inline"
             >
               {variant === "admin" ? "มุมมองสมาชิก" : "มุมมองผู้ดูแล"}
             </Link>
@@ -88,12 +88,38 @@ export function AppShell({
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">{children}</main>
+      <main className="mx-auto max-w-6xl px-4 py-8 pb-28 sm:px-6 lg:pb-8">{children}</main>
 
-      <footer className="mx-auto max-w-6xl px-4 pb-10 text-xs text-muted-foreground sm:px-6">
+      <footer className="mx-auto max-w-6xl px-4 pb-24 text-xs text-muted-foreground sm:px-6 lg:pb-10">
         FundFlow บันทึกและตรวจสอบหลักฐานการโอน — ไม่ได้เป็นระบบโอนเงินจริง
       </footer>
+
+      <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur lg:hidden">
+        <div className="mx-auto flex max-w-6xl items-stretch justify-around px-2 pt-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+          {nav.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              activeOptions={{ exact: item.exact ?? false }}
+              className="flex min-w-16 flex-col items-center gap-1 rounded-lg px-2 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground data-[status=active]:bg-primary/8 data-[status=active]:text-primary"
+            >
+              <item.icon className="size-5" />
+              <span>{item.short}</span>
+            </Link>
+          ))}
+          {variant === "admin" ? (
+            <Link
+              to="/dashboard"
+              className="flex min-w-16 flex-col items-center gap-1 rounded-lg px-2 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <Wallet className="size-5" />
+              <span>สมาชิก</span>
+            </Link>
+          ) : null}
+        </div>
+      </nav>
     </div>
+
   );
 }
 
