@@ -1,4 +1,7 @@
-import { Link } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   ClipboardCheck,
   LayoutDashboard,
@@ -9,7 +12,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { currentAdmin, currentUser } from "@/lib/fundflow-data";
+import { currentAdmin, currentUser, type Profile } from "@/lib/fundflow-data";
 
 type NavItem = { to: string; label: string; short: string; icon: LucideIcon; exact?: boolean };
 
@@ -21,7 +24,6 @@ const userNav: NavItem[] = [
     icon: Receipt,
     exact: true,
   },
-  { to: "/admin", label: "มุมมองผู้ดูแล", short: "ผู้ดูแล", icon: ClipboardCheck, exact: true },
 ];
 
 const adminNav: NavItem[] = [
@@ -31,22 +33,27 @@ const adminNav: NavItem[] = [
   { to: "/admin/users", label: "สมาชิก", short: "สมาชิก", icon: Users },
 ];
 
-
 export function AppShell({
   variant,
   children,
+  profile,
 }: {
   variant: "user" | "admin";
   children: React.ReactNode;
+  profile?: Profile;
 }) {
   const nav = variant === "admin" ? adminNav : userNav;
-  const person = variant === "admin" ? currentAdmin : currentUser;
+  const person = profile ?? (variant === "admin" ? currentAdmin : currentUser);
+  const canAccessAdmin = person.role === "ADMIN";
+  const pathname = usePathname();
+  const isActive = (item: NavItem) =>
+    item.exact ? pathname === item.to : pathname === item.to || pathname.startsWith(`${item.to}/`);
 
   return (
     <div className="min-h-screen bg-background">
       <header className="surface-deep sticky top-0 z-30">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-3 px-4 py-3.5 sm:px-6">
-          <Link to="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <span className="flex size-8 items-center justify-center rounded-lg bg-gold text-gold-foreground">
               <Wallet className="size-4" />
             </span>
@@ -57,9 +64,11 @@ export function AppShell({
             {nav.map((item) => (
               <Link
                 key={item.to}
-                to={item.to}
-                activeOptions={{ exact: item.exact ?? false }}
-                className="rounded-md px-3 py-1.5 text-sm text-primary-deep-foreground/70 transition-colors hover:bg-white/10 hover:text-primary-deep-foreground data-[status=active]:bg-white/15 data-[status=active]:text-primary-deep-foreground"
+                href={item.to}
+                className={cn(
+                  "rounded-md px-3 py-1.5 text-sm text-primary-deep-foreground/70 transition-colors hover:bg-white/10 hover:text-primary-deep-foreground",
+                  isActive(item) && "bg-white/15 text-primary-deep-foreground",
+                )}
               >
                 {item.label}
               </Link>
@@ -67,12 +76,21 @@ export function AppShell({
           </nav>
 
           <div className="ml-auto flex items-center gap-3">
-            <Link
-              to={variant === "admin" ? "/dashboard" : "/admin"}
-              className="hidden text-xs text-primary-deep-foreground/60 underline-offset-4 hover:underline lg:inline"
-            >
-              {variant === "admin" ? "มุมมองสมาชิก" : "มุมมองผู้ดูแล"}
-            </Link>
+            {variant === "admin" ? (
+              <Link
+                href="/dashboard"
+                className="hidden text-xs text-primary-deep-foreground/60 underline-offset-4 hover:underline lg:inline"
+              >
+                มุมมองสมาชิก
+              </Link>
+            ) : canAccessAdmin ? (
+              <Link
+                href="/admin"
+                className="hidden text-xs text-primary-deep-foreground/60 underline-offset-4 hover:underline lg:inline"
+              >
+                มุมมองผู้ดูแล
+              </Link>
+            ) : null}
             <div className="flex items-center gap-2">
               <span className="flex size-8 items-center justify-center rounded-full bg-white/15 text-sm font-medium">
                 {person.initials}
@@ -99,9 +117,11 @@ export function AppShell({
           {nav.map((item) => (
             <Link
               key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.exact ?? false }}
-              className="flex min-w-16 flex-col items-center gap-1 rounded-lg px-2 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground data-[status=active]:bg-primary/8 data-[status=active]:text-primary"
+              href={item.to}
+              className={cn(
+                "flex min-w-16 flex-col items-center gap-1 rounded-lg px-2 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground",
+                isActive(item) && "bg-primary/8 text-primary",
+              )}
             >
               <item.icon className="size-5" />
               <span>{item.short}</span>
@@ -109,17 +129,24 @@ export function AppShell({
           ))}
           {variant === "admin" ? (
             <Link
-              to="/dashboard"
+              href="/dashboard"
               className="flex min-w-16 flex-col items-center gap-1 rounded-lg px-2 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               <Wallet className="size-5" />
               <span>มุมมองฉัน</span>
             </Link>
+          ) : canAccessAdmin ? (
+            <Link
+              href="/admin"
+              className="flex min-w-16 flex-col items-center gap-1 rounded-lg px-2 py-1.5 text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <ClipboardCheck className="size-5" />
+              <span>ผู้ดูแล</span>
+            </Link>
           ) : null}
         </div>
       </nav>
     </div>
-
   );
 }
 

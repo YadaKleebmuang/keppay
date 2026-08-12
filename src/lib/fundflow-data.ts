@@ -36,6 +36,7 @@ export type Payment = {
   ocrAmount?: number;
   qrDetected: boolean;
   slipHash: string;
+  slipPath?: string;
   bank: string;
 };
 

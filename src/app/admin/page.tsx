@@ -1,0 +1,116 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { AppShell, PageHeader, StatCard } from "@/components/fundflow/app-shell";
+import { CollectionStatusBadge, PaymentStatusBadge } from "@/components/fundflow/status-badge";
+import { formatTHB } from "@/lib/fundflow-data";
+import { getAdminData, totalsFromViews } from "@/lib/fundflow-repository";
+
+export default async function AdminHome() {
+  const data = await getAdminData();
+  const t = totalsFromViews(data);
+  const queue = data.payments.filter((payment) => payment.status === "PENDING");
+
+  return (
+    <AppShell variant="admin" profile={data.profile}>
+      <PageHeader
+        title="ภาพรวมการเก็บเงิน"
+        description={
+          data.isDemo
+            ? "โหมดตัวอย่าง: ยังไม่ได้ตั้งค่า Supabase env จึงใช้ข้อมูลจำลอง"
+            : "ยอดทางการเงินทั้งหมดคำนวณจากสลิปที่อนุมัติแล้วเท่านั้น"
+        }
+      />
+
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <StatCard
+          label="รายการที่ใช้งาน"
+          value={String(t.collections)}
+          hint="ไม่รวมที่เก็บประวัติ"
+        />
+        <StatCard label="สมาชิก" value={String(t.members)} />
+        <StatCard label="สลิปรอตรวจสอบ" value={String(t.pending)} tone="warning" />
+        <StatCard label="ยอดที่ต้องเก็บ" value={`฿${formatTHB(t.required)}`} />
+        <StatCard label="อนุมัติแล้ว" value={`฿${formatTHB(t.approved)}`} tone="success" />
+        <StatCard label="ยอดคงเหลือ" value={`฿${formatTHB(t.remaining)}`} tone="primary" />
+      </div>
+
+      <div className="mt-10 grid gap-6 lg:grid-cols-[1.3fr_1fr]">
+        <section>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-foreground">คิวตรวจสลิป</h2>
+            <Link
+              href="/admin/payments"
+              className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+            >
+              ดูทั้งหมด <ArrowRight className="size-3.5" />
+            </Link>
+          </div>
+
+          <ul className="space-y-2.5">
+            {queue.map((p) => {
+              const view = data.views.find((view) => view.obligation.id === p.obligationId);
+              if (!view) return null;
+
+              return (
+                <li key={p.id}>
+                  <Link
+                    href={`/admin/payments/${p.id}`}
+                    className="flex flex-wrap items-center gap-3 rounded-xl border bg-card p-4 shadow-card transition-colors hover:border-primary/30"
+                  >
+                    <span className="flex size-9 items-center justify-center rounded-full bg-secondary text-sm font-medium text-secondary-foreground">
+                      {view.member.initials}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-medium text-foreground">
+                        {view.member.name}
+                      </span>
+                      <span className="block truncate text-xs text-muted-foreground">
+                        {view.collection.title} · {p.submittedAt}
+                      </span>
+                    </span>
+                    <span className="text-numeric ml-auto text-right text-sm font-semibold">
+                      ฿{formatTHB(p.amountEntered)}
+                    </span>
+                    <PaymentStatusBadge status={p.status} />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
+        <section>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-foreground">รายการเก็บเงิน</h2>
+            <Link
+              href="/admin/collections"
+              className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+            >
+              จัดการ <ArrowRight className="size-3.5" />
+            </Link>
+          </div>
+
+          <ul className="space-y-2.5">
+            {data.collections.slice(0, 4).map((c) => (
+              <li key={c.id}>
+                <Link
+                  href={`/admin/collections/${c.id}`}
+                  className="block rounded-xl border bg-card p-4 shadow-card transition-colors hover:border-primary/30"
+                >
+                  <span className="flex items-center justify-between gap-2">
+                    <span className="text-sm font-medium text-foreground">{c.title}</span>
+                    <CollectionStatusBadge status={c.status} />
+                  </span>
+                  <span className="mt-1 block text-xs text-muted-foreground">
+                    สร้างเมื่อ {c.createdAt}
+                    {c.dueDate ? ` · กำหนดชำระ ${c.dueDate}` : ""}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </AppShell>
+  );
+}
