@@ -198,7 +198,6 @@ export const payments: Payment[] = [
     submittedAt: "2026-01-12 08:31",
     reviewedAt: "2026-01-12 10:10",
     rejectReason: "สลิปไม่ชัด อ่านยอดและเวลาโอนไม่ได้",
-    ocrAmount: undefined,
     qrDetected: false,
     slipHash: "5c88de…9931",
     bank: "กรุงไทย",
