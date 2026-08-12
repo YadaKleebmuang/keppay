@@ -10,33 +10,168 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DisabledRouteImport } from './routes/disabled'
+import { Route as PendingRouteImport } from './routes/pending'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as PayObligationIdRouteImport } from './routes/pay.$obligationId'
+import { Route as AdminCollectionsIndexRouteImport } from './routes/admin/collections/index'
+import { Route as AdminCollectionsCollectionIdRouteImport } from './routes/admin/collections/$collectionId'
+import { Route as AdminPaymentsIndexRouteImport } from './routes/admin/payments/index'
+import { Route as AdminPaymentsPaymentIdRouteImport } from './routes/admin/payments/$paymentId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisabledRoute = DisabledRouteImport.update({
+  id: '/disabled',
+  path: '/disabled',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PendingRoute = PendingRouteImport.update({
+  id: '/pending',
+  path: '/pending',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PayObligationIdRoute = PayObligationIdRouteImport.update({
+  id: '/pay/$obligationId',
+  path: '/pay/$obligationId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCollectionsIndexRoute = AdminCollectionsIndexRouteImport.update({
+  id: '/admin/collections/',
+  path: '/admin/collections/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCollectionsCollectionIdRoute =
+  AdminCollectionsCollectionIdRouteImport.update({
+    id: '/admin/collections/$collectionId',
+    path: '/admin/collections/$collectionId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminPaymentsIndexRoute = AdminPaymentsIndexRouteImport.update({
+  id: '/admin/payments/',
+  path: '/admin/payments/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPaymentsPaymentIdRoute = AdminPaymentsPaymentIdRouteImport.update({
+  id: '/admin/payments/$paymentId',
+  path: '/admin/payments/$paymentId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/disabled': typeof DisabledRoute
+  '/pending': typeof PendingRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/pay/$obligationId': typeof PayObligationIdRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
+  '/admin/payments/$paymentId': typeof AdminPaymentsPaymentIdRoute
+  '/admin/collections/': typeof AdminCollectionsIndexRoute
+  '/admin/payments/': typeof AdminPaymentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/disabled': typeof DisabledRoute
+  '/pending': typeof PendingRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/pay/$obligationId': typeof PayObligationIdRoute
+  '/admin': typeof AdminIndexRoute
+  '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
+  '/admin/payments/$paymentId': typeof AdminPaymentsPaymentIdRoute
+  '/admin/collections': typeof AdminCollectionsIndexRoute
+  '/admin/payments': typeof AdminPaymentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/disabled': typeof DisabledRoute
+  '/pending': typeof PendingRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/pay/$obligationId': typeof PayObligationIdRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/collections/$collectionId': typeof AdminCollectionsCollectionIdRoute
+  '/admin/payments/$paymentId': typeof AdminPaymentsPaymentIdRoute
+  '/admin/collections/': typeof AdminCollectionsIndexRoute
+  '/admin/payments/': typeof AdminPaymentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/disabled'
+    | '/pending'
+    | '/admin/users'
+    | '/pay/$obligationId'
+    | '/admin/'
+    | '/admin/collections/$collectionId'
+    | '/admin/payments/$paymentId'
+    | '/admin/collections/'
+    | '/admin/payments/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/disabled'
+    | '/pending'
+    | '/admin/users'
+    | '/pay/$obligationId'
+    | '/admin'
+    | '/admin/collections/$collectionId'
+    | '/admin/payments/$paymentId'
+    | '/admin/collections'
+    | '/admin/payments'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/disabled'
+    | '/pending'
+    | '/admin/users'
+    | '/pay/$obligationId'
+    | '/admin/'
+    | '/admin/collections/$collectionId'
+    | '/admin/payments/$paymentId'
+    | '/admin/collections/'
+    | '/admin/payments/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  DisabledRoute: typeof DisabledRoute
+  PendingRoute: typeof PendingRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  PayObligationIdRoute: typeof PayObligationIdRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminCollectionsCollectionIdRoute: typeof AdminCollectionsCollectionIdRoute
+  AdminPaymentsPaymentIdRoute: typeof AdminPaymentsPaymentIdRoute
+  AdminCollectionsIndexRoute: typeof AdminCollectionsIndexRoute
+  AdminPaymentsIndexRoute: typeof AdminPaymentsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +183,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disabled': {
+      id: '/disabled'
+      path: '/disabled'
+      fullPath: '/disabled'
+      preLoaderRoute: typeof DisabledRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pending': {
+      id: '/pending'
+      path: '/pending'
+      fullPath: '/pending'
+      preLoaderRoute: typeof PendingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pay/$obligationId': {
+      id: '/pay/$obligationId'
+      path: '/pay/$obligationId'
+      fullPath: '/pay/$obligationId'
+      preLoaderRoute: typeof PayObligationIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/collections/': {
+      id: '/admin/collections/'
+      path: '/admin/collections'
+      fullPath: '/admin/collections/'
+      preLoaderRoute: typeof AdminCollectionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/collections/$collectionId': {
+      id: '/admin/collections/$collectionId'
+      path: '/admin/collections/$collectionId'
+      fullPath: '/admin/collections/$collectionId'
+      preLoaderRoute: typeof AdminCollectionsCollectionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/payments/': {
+      id: '/admin/payments/'
+      path: '/admin/payments'
+      fullPath: '/admin/payments/'
+      preLoaderRoute: typeof AdminPaymentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/payments/$paymentId': {
+      id: '/admin/payments/$paymentId'
+      path: '/admin/payments/$paymentId'
+      fullPath: '/admin/payments/$paymentId'
+      preLoaderRoute: typeof AdminPaymentsPaymentIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
+  DisabledRoute: DisabledRoute,
+  PendingRoute: PendingRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  PayObligationIdRoute: PayObligationIdRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminCollectionsCollectionIdRoute: AdminCollectionsCollectionIdRoute,
+  AdminPaymentsPaymentIdRoute: AdminPaymentsPaymentIdRoute,
+  AdminCollectionsIndexRoute: AdminCollectionsIndexRoute,
+  AdminPaymentsIndexRoute: AdminPaymentsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
