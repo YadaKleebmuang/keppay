@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as PendingRouteImport } from './routes/pending'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as PayObligationIdRouteImport } from './routes/pay.$obligationId'
@@ -27,6 +28,11 @@ const IndexRoute = IndexRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PendingRoute = PendingRouteImport.update({
+  id: '/pending',
+  path: '/pending',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -69,6 +75,7 @@ const AdminPaymentsPaymentIdRoute = AdminPaymentsPaymentIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/pending': typeof PendingRoute
   '/admin/users': typeof AdminUsersRoute
   '/pay/$obligationId': typeof PayObligationIdRoute
   '/admin/': typeof AdminIndexRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/pending': typeof PendingRoute
   '/admin/users': typeof AdminUsersRoute
   '/pay/$obligationId': typeof PayObligationIdRoute
   '/admin': typeof AdminIndexRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/pending': typeof PendingRoute
   '/admin/users': typeof AdminUsersRoute
   '/pay/$obligationId': typeof PayObligationIdRoute
   '/admin/': typeof AdminIndexRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/pending'
     | '/admin/users'
     | '/pay/$obligationId'
     | '/admin/'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/pending'
     | '/admin/users'
     | '/pay/$obligationId'
     | '/admin'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/pending'
     | '/admin/users'
     | '/pay/$obligationId'
     | '/admin/'
@@ -139,6 +151,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
+  PendingRoute: typeof PendingRoute
   AdminUsersRoute: typeof AdminUsersRoute
   PayObligationIdRoute: typeof PayObligationIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -162,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pending': {
+      id: '/pending'
+      path: '/pending'
+      fullPath: '/pending'
+      preLoaderRoute: typeof PendingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -219,6 +239,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
+  PendingRoute: PendingRoute,
   AdminUsersRoute: AdminUsersRoute,
   PayObligationIdRoute: PayObligationIdRoute,
   AdminIndexRoute: AdminIndexRoute,
