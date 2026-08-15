@@ -48,6 +48,14 @@ export function PayForm({
     try {
       await submitSlip(formData);
     } catch (err: any) {
+      // ดักจับและส่งผ่าน (rethrow) เออร์เรอร์ NEXT_REDIRECT เพื่อให้ Next.js ทำการย้ายหน้าเพจตามปกติโดยไม่แสดง Toast
+      if (
+        err?.message === "NEXT_REDIRECT" ||
+        err?.digest?.includes("NEXT_REDIRECT") ||
+        String(err).includes("NEXT_REDIRECT")
+      ) {
+        throw err;
+      }
       toast.error(err.message || "เกิดข้อผิดพลาดในการส่งสลิป");
       setIsPending(false);
     }
