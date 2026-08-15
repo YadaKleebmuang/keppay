@@ -29,12 +29,29 @@ export function PayForm({
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [amount, setAmount] = useState(String(view.remaining));
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     return () => {
       previewUrls.forEach((url) => URL.revokeObjectURL(url));
     };
   }, [previewUrls]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isPending) return;
+    setIsPending(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      await submitSlip(formData);
+    } catch (err: any) {
+      toast.error(err.message || "เกิดข้อผิดพลาดในการส่งสลิป");
+      setIsPending(false);
+    }
+  };
 
   return (
     <AppShell variant="user" profile={profile}>
@@ -63,7 +80,9 @@ export function PayForm({
               รองรับ JPEG, PNG และ WebP ระบบจะบีบอัดให้เหลือประมาณ 200-500 KB
               โดยยังคงความชัดของตัวเลขและ QR
             </p>
-            <label className="mt-4 flex w-full cursor-pointer flex-col items-center gap-2.5 rounded-xl border-2 border-dashed border-border bg-secondary/50 px-6 py-6 text-center transition-colors hover:border-primary/40 hover:bg-secondary">
+            <label className={`mt-4 flex w-full flex-col items-center gap-2.5 rounded-xl border-2 border-dashed border-border bg-secondary/50 px-6 py-6 text-center transition-colors hover:border-primary/40 hover:bg-secondary ${
+              isPending ? "pointer-events-none opacity-50 cursor-not-allowed" : "cursor-pointer"
+            }`}>
               <ImageUp className="size-6 text-primary" />
               <span className="text-sm font-medium text-foreground">
                 {hasSlip ? "เพิ่มหรือเลือกไฟล์สลิปใหม่" : "เลือกรูปสลิปจากเครื่อง"}
@@ -76,6 +95,7 @@ export function PayForm({
                 name="slip"
                 type="file"
                 multiple
+                disabled={isPending}
                 accept="image/jpeg,image/png,image/webp"
                 className="sr-only"
                 onChange={(event) => {
@@ -137,7 +157,7 @@ export function PayForm({
 
           <section className="rounded-xl border bg-card p-5 shadow-card">
             <h2 className="text-base font-semibold text-foreground">2. ยืนยันยอดที่โอน</h2>
-            <form id="submit-slip-form" action={submitSlip} className="mt-4 space-y-4">
+            <form id="submit-slip-form" onSubmit={handleSubmit} className="mt-4 space-y-4">
               <input type="hidden" name="obligationId" value={view.obligation.id} />
               <div className="grid gap-4">
                 <div>
@@ -147,6 +167,7 @@ export function PayForm({
                     name="amount"
                     inputMode="decimal"
                     value={amount}
+                    disabled={isPending}
                     onChange={(e) => setAmount(e.target.value)}
                     className="text-numeric mt-1.5"
                   />
@@ -157,15 +178,20 @@ export function PayForm({
                     id="note"
                     name="note"
                     rows={3}
+                    disabled={isPending}
                     className="mt-1.5"
                     placeholder="เช่น โอนแยก 2 ครั้ง"
                   />
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-3">
-                <Button disabled={!hasSlip || !amount} type="submit">
-                  <Check className="size-4" />
-                  ส่งให้ผู้ดูแลตรวจสอบ
+                <Button disabled={!hasSlip || !amount || isPending} type="submit">
+                  {isPending ? (
+                    <div className="size-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent"></div>
+                  ) : (
+                    <Check className="size-4" />
+                  )}
+                  {isPending ? "กำลังอัปโหลด..." : "ส่งให้ผู้ดูแลตรวจสอบ"}
                 </Button>
                 <p className="text-xs text-muted-foreground">
                   ยอดคงเหลือจะยังไม่ลดลงจนกว่าผู้ดูแลจะอนุมัติ
@@ -208,6 +234,30 @@ export function PayForm({
           </div>
         </aside>
       </div>
+
+      {/* หน้าจอ Loading Overlay เมื่อกดส่งสลิป */}
+      {isPending && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background/80 backdrop-blur-md transition-opacity">
+          <div className="flex flex-col items-center gap-5 text-center p-6 max-w-sm">
+            {/* Mascot Image ที่มี Bounce Animation */}
+            <div className="relative size-24 animate-bounce">
+              <img
+                src="/Kep.png"
+                alt="กำลังอัปโหลด..."
+                className="size-full object-contain"
+              />
+            </div>
+            {/* วงล้อหมุนโหลด */}
+            <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+            <div className="space-y-1.5">
+              <h3 className="text-lg font-bold text-foreground">กำลังประมวลผลและอัปโหลด...</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                ระบบกำลังตรวจสอบสลิป บีบอัดภาพ และบันทึกข้อมูล กรุณารอสักครู่ (ห้ามปิดหน้าจอนี้)
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </AppShell>
   );
 }
