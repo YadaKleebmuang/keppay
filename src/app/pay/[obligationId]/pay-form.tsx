@@ -63,27 +63,13 @@ export function PayForm({
               รองรับ JPEG, PNG และ WebP ระบบจะบีบอัดให้เหลือประมาณ 200-500 KB
               โดยยังคงความชัดของตัวเลขและ QR
             </p>
-            <label className="mt-4 flex w-full cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-dashed border-border bg-secondary/50 px-6 py-8 text-center transition-colors hover:border-primary/40 hover:bg-secondary">
-              {previewUrls.length > 0 ? (
-                <div className="grid grid-cols-2 gap-3 w-full max-w-lg">
-                  {previewUrls.map((url, idx) => (
-                    <span key={url} className="relative block overflow-hidden rounded-lg border bg-card aspect-[3/4]">
-                      <img
-                        src={url}
-                        alt={`ตัวอย่างสลิปที่ ${idx + 1}`}
-                        className="h-full w-full object-contain"
-                      />
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <ImageUp className="size-6 text-primary" />
-              )}
+            <label className="mt-4 flex w-full cursor-pointer flex-col items-center gap-2.5 rounded-xl border-2 border-dashed border-border bg-secondary/50 px-6 py-6 text-center transition-colors hover:border-primary/40 hover:bg-secondary">
+              <ImageUp className="size-6 text-primary" />
               <span className="text-sm font-medium text-foreground">
-                {hasSlip ? "เลือกไฟล์ใหม่" : "เลือกรูปสลิปจากเครื่อง"}
+                {hasSlip ? "เพิ่มหรือเลือกไฟล์สลิปใหม่" : "เลือกรูปสลิปจากเครื่อง"}
               </span>
-              <span className="text-xs text-muted-foreground max-w-md truncate">
-                {fileNames.join(", ") || "รองรับ JPEG, PNG และ WebP (เลือกได้หลายไฟล์)"}
+              <span className="text-xs text-muted-foreground">
+                รองรับ JPEG, PNG และ WebP (เลือกได้หลายไฟล์)
               </span>
               <input
                 form="submit-slip-form"
@@ -105,6 +91,34 @@ export function PayForm({
                 }}
               />
             </label>
+
+            {/* พรีวิวรายการสลิปที่เลือกด้านนอกกล่อง (1 คอลัมน์ ไม่ยืดกล่องอัปโหลด) */}
+            {previewUrls.length > 0 && (
+              <div className="mt-4 space-y-2">
+                <p className="text-xs font-semibold text-muted-foreground">สลิปที่เลือกไว้ ({previewUrls.length} ใบ):</p>
+                <div className="max-h-[260px] overflow-y-auto space-y-2 pr-1">
+                  {previewUrls.map((url, idx) => (
+                    <div key={url} className="flex items-center gap-3 rounded-lg border bg-card p-2 shadow-sm">
+                      <span className="relative block h-16 w-12 shrink-0 overflow-hidden rounded border bg-secondary/20">
+                        <img
+                          src={url}
+                          alt={`ตัวอย่างสลิปที่ ${idx + 1}`}
+                          className="h-full w-full object-contain"
+                        />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="break-all text-xs font-medium text-foreground">
+                          {fileNames[idx] || `slip-${idx + 1}`}
+                        </p>
+                        <p className="text-[10px] text-muted-foreground">
+                          สลิปใบที่ {idx + 1}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             {hasSlip ? (
               <div className="mt-4 rounded-lg border bg-secondary/40 p-4">
                 <div className="flex flex-wrap items-center gap-2">
