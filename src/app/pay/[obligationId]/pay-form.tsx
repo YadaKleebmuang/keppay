@@ -26,15 +26,15 @@ export function PayForm({
   isDemo: boolean;
 }) {
   const [hasSlip, setHasSlip] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [fileName, setFileName] = useState("");
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [fileNames, setFileNames] = useState<string[]>([]);
   const [amount, setAmount] = useState(String(view.remaining));
 
   useEffect(() => {
     return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      previewUrls.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [previewUrl]);
+  }, [previewUrls]);
 
   return (
     <AppShell variant="user" profile={profile}>
@@ -64,42 +64,43 @@ export function PayForm({
               โดยยังคงความชัดของตัวเลขและ QR
             </p>
             <label className="mt-4 flex w-full cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-dashed border-border bg-secondary/50 px-6 py-8 text-center transition-colors hover:border-primary/40 hover:bg-secondary">
-              {previewUrl ? (
-                <span className="relative block w-full max-w-sm overflow-hidden rounded-lg border bg-card">
-                  <Image
-                    src={previewUrl}
-                    alt="ตัวอย่างสลิปที่เลือก"
-                    width={420}
-                    height={560}
-                    className="max-h-[28rem] w-full object-contain"
-                    unoptimized
-                  />
-                </span>
+              {previewUrls.length > 0 ? (
+                <div className="grid grid-cols-2 gap-3 w-full max-w-lg">
+                  {previewUrls.map((url, idx) => (
+                    <span key={url} className="relative block overflow-hidden rounded-lg border bg-card aspect-[3/4]">
+                      <img
+                        src={url}
+                        alt={`ตัวอย่างสลิปที่ ${idx + 1}`}
+                        className="h-full w-full object-contain"
+                      />
+                    </span>
+                  ))}
+                </div>
               ) : (
                 <ImageUp className="size-6 text-primary" />
               )}
               <span className="text-sm font-medium text-foreground">
                 {hasSlip ? "เลือกไฟล์ใหม่" : "เลือกรูปสลิปจากเครื่อง"}
               </span>
-              <span className="text-xs text-muted-foreground">
-                {fileName || "รองรับ JPEG, PNG และ WebP"}
+              <span className="text-xs text-muted-foreground max-w-md truncate">
+                {fileNames.join(", ") || "รองรับ JPEG, PNG และ WebP (เลือกได้หลายไฟล์)"}
               </span>
               <input
                 form="submit-slip-form"
                 name="slip"
                 type="file"
+                multiple
                 accept="image/jpeg,image/png,image/webp"
                 className="sr-only"
                 onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  setHasSlip(true);
-
-                  if (previewUrl) URL.revokeObjectURL(previewUrl);
-
-                  if (file) {
-                    setPreviewUrl(URL.createObjectURL(file));
-                    setFileName(file.name);
-                    toast.success("เลือกไฟล์สลิปแล้ว");
+                  const files = event.target.files ? Array.from(event.target.files) : [];
+                  if (files.length > 0) {
+                    setHasSlip(true);
+                    previewUrls.forEach((url) => URL.revokeObjectURL(url));
+                    const urls = files.map((file) => URL.createObjectURL(file));
+                    setPreviewUrls(urls);
+                    setFileNames(files.map((f) => f.name));
+                    toast.success(`เลือกไฟล์สลิปแล้ว ${files.length} ใบ`);
                   }
                 }}
               />
