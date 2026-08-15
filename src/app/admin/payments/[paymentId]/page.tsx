@@ -54,9 +54,9 @@ export default async function PaymentReview({
       <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
         <section className="rounded-xl border bg-card p-5 shadow-card">
           <h2 className="text-sm font-semibold text-foreground">หลักฐานการโอน</h2>
-          <div className="mt-3 flex aspect-3/4 flex-col items-center justify-center overflow-hidden rounded-lg border bg-secondary/50 text-center">
+          <div className="mt-3 flex flex-col items-center justify-center overflow-hidden rounded-lg border bg-secondary/10 text-center">
             {slipUrl ? (
-              <img src={slipUrl} alt="สลิปการโอน" className="h-full w-full object-contain" />
+              <img src={slipUrl} alt="สลิปการโอน" className="w-full h-auto max-h-[420px] object-contain" />
             ) : (
               <div className="p-6">
                 <p className="text-sm font-medium text-foreground">ไม่พบ preview สลิป</p>
@@ -66,9 +66,9 @@ export default async function PaymentReview({
               </div>
             )}
           </div>
-          <p className="text-numeric mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Fingerprint className="size-3.5" />
-            SHA-256 {payment.slipHash}
+          <p className="text-numeric mt-3 flex items-start gap-1.5 text-xs text-muted-foreground break-all">
+            <Fingerprint className="size-3.5 mt-0.5 shrink-0" />
+            <span>SHA-256 {payment.slipHash}</span>
           </p>
         </section>
 
@@ -117,17 +117,17 @@ export default async function PaymentReview({
                   placeholder="เช่น สลิปไม่ชัด ยอดไม่ตรง เป็นสลิปซ้ำ"
                 />
               </div>
-              <div className="mt-5 flex flex-wrap gap-2">
-                <form id="approve-payment-form" action={approvePayment}>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <form id="approve-payment-form" action={approvePayment} className="w-full">
                   <input type="hidden" name="paymentId" value={payment.id} />
-                  <Button type="submit">
+                  <Button type="submit" className="w-full">
                     <Check className="size-4" />
                     อนุมัติ
                   </Button>
                 </form>
-                <form id="reject-payment-form" action={rejectPayment}>
+                <form id="reject-payment-form" action={rejectPayment} className="w-full">
                   <input type="hidden" name="paymentId" value={payment.id} />
-                  <Button variant="destructive" type="submit">
+                  <Button variant="destructive" type="submit" className="w-full">
                     <X className="size-4" />
                     ปฏิเสธ
                   </Button>

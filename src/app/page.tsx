@@ -1,17 +1,16 @@
-import Link from "next/link";
-import { ArrowRight, CheckCircle2, ShieldCheck, Wallet } from "lucide-react";
+import { CheckCircle2, ShieldCheck, Wallet } from "lucide-react";
 import { signInWithGoogle } from "./auth/actions";
 
 const points = [
   "กำหนดยอดที่แต่ละคนต้องจ่ายได้ไม่เท่ากัน",
   "สมาชิกส่งสลิปได้หลายครั้งต่อหนึ่งรายการ",
-  "ยอดการเงินคิดจากสลิปที่ผู้ดูแลอนุมัติแล้วเท่านั้น",
+  "ยอดเงินคิดจากสลิปที่อนุมัติแล้วเท่านั้น",
 ];
 
 export default function Landing() {
   return (
-    <div className="grid min-h-screen lg:grid-cols-[1.05fr_1fr]">
-      <section className="surface-deep flex flex-col justify-between px-6 py-10 sm:px-12 lg:py-14">
+    <div className="grid min-h-screen lg:grid-cols-[1.35fr_1fr]">
+      <section className="surface-deep flex flex-col justify-between px-6 py-8 sm:px-12 sm:py-12 lg:py-14">
         <div className="flex items-center gap-2">
           <span className="flex size-9 items-center justify-center rounded-lg bg-gold text-gold-foreground">
             <Wallet className="size-4.5" />
@@ -19,26 +18,31 @@ export default function Landing() {
           <span className="text-lg font-semibold tracking-tight">keppay</span>
         </div>
 
-        <div className="max-w-xl py-12">
-          <p className="text-xs tracking-[0.2em] text-gold uppercase">Record · Evidence · Verify</p>
-          <h1 className="mt-4 text-3xl leading-tight font-semibold sm:text-4xl">
-            เก็บเงินในกลุ่ม จบในที่เดียว
-            <br />
-            ไม่ต้องตามในแชตอีกต่อไป
-          </h1>
-          <p className="mt-4 text-sm leading-relaxed text-primary-deep-foreground/70 sm:text-base">
-            สร้างรายการเก็บเงิน กำหนดสมาชิกและยอดต่อคน รับสลิปโอนเงิน แล้วให้ผู้ดูแลตรวจสอบอนุมัติ
-            พร้อมสรุปยอดคงเหลือของทุกคนแบบอัตโนมัติ
-          </p>
+        <div className="grid gap-6 lg:gap-8 items-center py-4 lg:grid-cols-2 lg:py-10 max-w-5xl w-full">
+          <div className="max-w-xl">
+            <p className="text-xs tracking-[0.2em] text-gold uppercase">Record · Evidence · Verify</p>
+            <h1 className="mt-2.5 text-3xl leading-tight font-semibold sm:text-4xl">
+              เก็บเงินในกลุ่ม จบในที่เดียว
+              <br />
+              ไม่ต้องตามในแชตอีกต่อไป
+            </h1>
 
-          <ul className="mt-8 space-y-3">
-            {points.map((p) => (
-              <li key={p} className="flex items-start gap-2.5 text-sm">
-                <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-gold" />
-                <span className="text-primary-deep-foreground/85">{p}</span>
-              </li>
-            ))}
-          </ul>
+            <ul className="mt-5 space-y-2">
+              {points.map((p) => (
+                <li key={p} className="flex items-start gap-2.5 text-xs sm:text-sm">
+                  <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-gold" />
+                  <span className="text-primary-deep-foreground/85">{p}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="flex justify-center lg:justify-end">
+            <img
+              src="/Kep.png"
+              alt="Mascot Kep"
+              className="w-full max-w-[240px] sm:max-w-[280px] lg:max-w-[340px] object-contain drop-shadow-2xl animate-float"
+            />
+          </div>
         </div>
 
         <p className="text-xs text-primary-deep-foreground/50">
@@ -46,14 +50,15 @@ export default function Landing() {
         </p>
       </section>
 
-      <section className="flex items-center justify-center px-6 py-14 sm:px-12">
+      <section className="flex items-center justify-center px-6 py-8 sm:px-12 sm:py-14">
         <div className="w-full max-w-sm">
+
           <h2 className="text-xl font-semibold text-foreground">เข้าสู่ระบบ</h2>
-          <p className="mt-1.5 text-sm text-muted-foreground">
+          <p className="mt-1 text-xs sm:text-sm text-muted-foreground leading-normal">
             ใช้บัญชี Google ของคุณ ผู้ใช้ใหม่จะอยู่ในสถานะรออนุมัติจากผู้ดูแล
           </p>
 
-          <form action={signInWithGoogle} className="mt-6 space-y-3">
+          <form action={signInWithGoogle} className="mt-5 space-y-3">
             <button
               type="submit"
               className="flex w-full items-center justify-center gap-2.5 rounded-lg border border-border bg-card px-4 py-3 text-sm font-medium text-foreground shadow-card transition-colors hover:bg-secondary"
@@ -63,19 +68,7 @@ export default function Landing() {
             </button>
           </form>
 
-          <div className="mt-8 rounded-xl border border-border bg-card p-4">
-            <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-              ตัวอย่างหน้าจอ (ยังเป็นข้อมูลจำลอง)
-            </p>
-            <div className="mt-3 space-y-1.5">
-              <DemoLink href="/dashboard" label="แดชบอร์ดสมาชิก" />
-              <DemoLink href="/admin" label="แดชบอร์ดผู้ดูแล" />
-              <DemoLink href="/pending" label="หน้ารออนุมัติบัญชี" />
-              <DemoLink href="/disabled" label="หน้าบัญชีถูกระงับ" />
-            </div>
-          </div>
-
-          <p className="mt-6 flex items-center gap-2 text-xs text-muted-foreground">
+          <p className="mt-5 flex items-center gap-2 text-xs text-muted-foreground">
             <ShieldCheck className="size-3.5 text-primary" />
             ข้อมูลการเงินของสมาชิกแยกจากกัน มองเห็นได้เฉพาะเจ้าของและผู้ดูแล
           </p>
@@ -85,17 +78,6 @@ export default function Landing() {
   );
 }
 
-function DemoLink({ href, label }: { href: string; label: string }) {
-  return (
-    <Link
-      href={href}
-      className="flex items-center justify-between rounded-md px-2 py-1.5 text-sm text-foreground transition-colors hover:bg-secondary"
-    >
-      {label}
-      <ArrowRight className="size-3.5 text-muted-foreground" />
-    </Link>
-  );
-}
 
 function GoogleMark() {
   return (

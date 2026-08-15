@@ -62,7 +62,7 @@ export default async function CollectionDetail({
         {collection.dueDate ? <span>กำหนดชำระ {collection.dueDate}</span> : null}
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         <StatCard label="ยอดที่ต้องเก็บ" value={`฿${formatTHB(required)}`} />
         <StatCard label="อนุมัติแล้ว" value={`฿${formatTHB(approved)}`} tone="success" />
         <StatCard label="รอตรวจสอบ" value={`฿${formatTHB(pending)}`} tone="warning" />

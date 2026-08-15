@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useTransition } from "react";
 import {
   ClipboardCheck,
   LayoutDashboard,
@@ -9,10 +10,33 @@ import {
   Receipt,
   Users,
   Wallet,
+  LogOut,
+  Settings,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { currentAdmin, currentUser, type Profile } from "@/lib/fundflow-data";
+import { signOut, updateProfileName } from "@/app/auth/actions";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+
 
 type NavItem = { to: string; label: string; short: string; icon: LucideIcon; exact?: boolean };
 
@@ -48,6 +72,28 @@ export function AppShell({
   const pathname = usePathname();
   const isActive = (item: NavItem) =>
     item.exact ? pathname === item.to : pathname === item.to || pathname.startsWith(`${item.to}/`);
+
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [newName, setNewName] = useState(person.name);
+  const [isPending, startTransition] = useTransition();
+
+  const handleUpdateName = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = newName.trim();
+    if (!trimmed) {
+      toast.error("ชื่อห้ามว่าง");
+      return;
+    }
+    startTransition(async () => {
+      try {
+        await updateProfileName(trimmed);
+        toast.success("อัปเดตชื่อสำเร็จ");
+        setIsSettingsOpen(false);
+      } catch (err: any) {
+        toast.error(err.message || "เกิดข้อผิดพลาดในการอัปเดตชื่อ");
+      }
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -91,17 +137,45 @@ export function AppShell({
                 มุมมองผู้ดูแล
               </Link>
             ) : null}
-            <div className="flex items-center gap-2">
-              <span className="flex size-8 items-center justify-center rounded-full bg-white/15 text-sm font-medium">
-                {person.initials}
-              </span>
-              <span className="hidden text-sm leading-tight sm:block">
-                {person.name}
-                <span className="block text-[11px] text-primary-deep-foreground/60">
-                  {variant === "admin" ? "ผู้ดูแล" : "สมาชิก"}
-                </span>
-              </span>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 rounded-lg px-2 py-1 transition-colors hover:bg-white/10 text-left cursor-pointer">
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-sm font-medium text-primary-deep-foreground">
+                    {person.initials}
+                  </span>
+                  <span className="hidden text-sm leading-tight text-primary-deep-foreground sm:block">
+                    {person.name}
+                    <span className="block text-[11px] text-primary-deep-foreground/60">
+                      {variant === "admin" ? "ผู้ดูแล" : "สมาชิก"}
+                    </span>
+                  </span>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem
+                  onClick={() => {
+                    setNewName(person.name);
+                    setIsSettingsOpen(true);
+                  }}
+                  className="cursor-pointer"
+                >
+                  <Settings className="mr-2 size-4 text-muted-foreground" />
+                  <span>ตั้งค่าบัญชี</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="p-0">
+                  <form action={signOut} className="w-full">
+                    <button
+                      type="submit"
+                      className="flex w-full items-center px-2 py-1.5 text-sm text-destructive hover:bg-destructive/10 cursor-pointer"
+                    >
+                      <LogOut className="mr-2 size-4" />
+                      <span>ออกจากระบบ</span>
+                    </button>
+                  </form>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>
@@ -146,6 +220,40 @@ export function AppShell({
           ) : null}
         </div>
       </nav>
+
+      <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>ตั้งค่าบัญชี</DialogTitle>
+            <DialogDescription>
+              แก้ไขชื่อโปรไฟล์ของคุณในระบบ
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleUpdateName}>
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label htmlFor="name">ชื่อ-นามสกุล</Label>
+                <Input
+                  id="name"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  placeholder="กรอกชื่อใหม่ของคุณ"
+                  disabled={isPending}
+                  required
+                />
+              </div>
+            </div>
+            <DialogFooter className="gap-2 sm:gap-0">
+              <Button type="button" variant="ghost" onClick={() => setIsSettingsOpen(false)} disabled={isPending}>
+                ยกเลิก
+              </Button>
+              <Button type="submit" disabled={isPending}>
+                {isPending ? "กำลังบันทึก..." : "บันทึก"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -190,15 +298,15 @@ export function StatCard({
   return (
     <div
       className={cn(
-        "rounded-xl border bg-card p-4 shadow-card",
+        "rounded-xl border bg-card p-3 sm:p-4 shadow-card",
         tone === "primary" && "border-primary/20 bg-primary/5",
         tone === "warning" && "border-warning/25 bg-warning/10",
         tone === "success" && "border-success/25 bg-success/8",
       )}
     >
-      <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">{label}</p>
-      <p className="text-numeric mt-2 text-2xl font-semibold text-foreground">{value}</p>
-      {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}
+      <p className="text-[10px] sm:text-xs font-medium tracking-wide text-muted-foreground uppercase">{label}</p>
+      <p className="text-numeric mt-1.5 text-xl sm:text-2xl font-semibold text-foreground">{value}</p>
+      {hint ? <p className="mt-1 text-[10px] sm:text-xs leading-tight text-muted-foreground">{hint}</p> : null}
     </div>
   );
 }
