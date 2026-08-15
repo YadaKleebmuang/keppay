@@ -1,17 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Check, Fingerprint, X } from "lucide-react";
+import { ArrowLeft, Fingerprint } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/fundflow/app-shell";
 import { FinancialStatusBadge, PaymentStatusBadge } from "@/components/fundflow/status-badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { formatTHB } from "@/lib/fundflow-data";
 import { getAdminData } from "@/lib/fundflow-repository";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { approvePayment, rejectPayment } from "../actions";
+import { PaymentReviewForm } from "./review-form";
 
 export default async function PaymentReview({
   params,
@@ -90,50 +87,12 @@ export default async function PaymentReview({
           </section>
 
           {payment.status === "PENDING" ? (
-            <section className="rounded-xl border bg-card p-5 shadow-card">
-              <h2 className="text-sm font-semibold text-foreground">ผลการตรวจสอบ</h2>
-              <div className="mt-3">
-                <Label htmlFor="approved">ยอดที่อนุมัติ (บาท)</Label>
-                <Input
-                  id="approved"
-                  name="approvedAmount"
-                  inputMode="decimal"
-                  defaultValue={payment.amountEntered}
-                  form="approve-payment-form"
-                  className="text-numeric mt-1.5"
-                />
-                <p className="mt-1.5 text-xs text-muted-foreground">
-                  ยอดนี้คือค่าที่ใช้คำนวณสถานะการเงินจริง
-                </p>
-              </div>
-              <div className="mt-4">
-                <Label htmlFor="reason">เหตุผล (กรณีปฏิเสธ)</Label>
-                <Textarea
-                  id="reason"
-                  name="rejectReason"
-                  rows={3}
-                  form="reject-payment-form"
-                  className="mt-1.5"
-                  placeholder="เช่น สลิปไม่ชัด ยอดไม่ตรง เป็นสลิปซ้ำ"
-                />
-              </div>
-              <div className="mt-5 grid grid-cols-2 gap-3">
-                <form id="approve-payment-form" action={approvePayment} className="w-full">
-                  <input type="hidden" name="paymentId" value={payment.id} />
-                  <Button type="submit" className="w-full">
-                    <Check className="size-4" />
-                    อนุมัติ
-                  </Button>
-                </form>
-                <form id="reject-payment-form" action={rejectPayment} className="w-full">
-                  <input type="hidden" name="paymentId" value={payment.id} />
-                  <Button variant="destructive" type="submit" className="w-full">
-                    <X className="size-4" />
-                    ปฏิเสธ
-                  </Button>
-                </form>
-              </div>
-            </section>
+            <PaymentReviewForm
+              paymentId={payment.id}
+              amountEntered={payment.amountEntered}
+              approvePayment={approvePayment}
+              rejectPayment={rejectPayment}
+            />
           ) : (
             <section className="rounded-xl border bg-card p-5 shadow-card">
               <h2 className="text-sm font-semibold text-foreground">ผลการตรวจสอบก่อนหน้า</h2>
